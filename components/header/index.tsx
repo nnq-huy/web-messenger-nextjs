@@ -38,7 +38,7 @@ const Header = ({ children }: { children: React.ReactNode }) => {
 		}
 	};
 	return <>
-        <header className="flex flex-wrap container mx-auto max-w-full items-center p-6 justify-between bg-white shadow-md sticky top-0 z-50">
+        <header className="flex flex-wrap container mx-auto max-w-full items-center p-6 justify-between bg-gray-100 shadow-md sticky top-0 z-50">
             <div className="flex items-center text-blue-900 hover:text-blue-800 cursor-pointer transition duration-150 ">
                 <Link href={HOME} legacyBehavior>
                     <Image 

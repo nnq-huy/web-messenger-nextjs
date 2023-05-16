@@ -4,6 +4,8 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signOut,
+	signInWithPopup,
+	GoogleAuthProvider,
 } from "firebase/auth";
 import { auth } from "../config/firebase";
 
@@ -35,6 +37,10 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 	const signUp = (email: string, password: string) => {
 		return createUserWithEmailAndPassword(auth, email, password);
 	};
+	const provider = new GoogleAuthProvider();
+	provider.addScope('profile');
+	provider.addScope('email');
+	const logInWithGoogle = () =>  signInWithPopup(auth, provider);
 
 	const logIn = (email: string, password: string) => {
 		return signInWithEmailAndPassword(auth, email, password);
@@ -46,7 +52,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 	};
 
 	return (
-		<AuthContext.Provider value={{ user, signUp, logIn, logOut }}>
+		<AuthContext.Provider value={{ user, signUp, logIn,logInWithGoogle, logOut }}>
 			{loading ? null : children}
 		</AuthContext.Provider>
 	);

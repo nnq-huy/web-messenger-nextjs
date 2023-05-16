@@ -18,10 +18,10 @@ export const FormInput = ({
 
 	return (
 		<>
-			<div className="mt-8">
+			<div className="mt-2">
 				{label && (
 					<div className="flex items-center justify-between">
-						<label htmlFor="" className="block mb-3 font-sans text-blue-900">
+						<label htmlFor="" className="block text-sm font-medium leading-6 text-blue-900">
 							{label}
 						</label>
 					</div>
@@ -30,7 +30,7 @@ export const FormInput = ({
 					<input
 						type={`${type ? type : "text"}`}
 						{...register(name ? name : "", formOptions)}
-						className={`border border-solid rounded-lg ring:0 focus:ring-0 focus:outline-none border-gray-400 text-gray-500 text-normal py-3 h-12 px-6 text-lg w-full flex items-center`}
+						className={`form-input border-0 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-gray-600 text-gray-500 text-normal py-3 h-12 px-6 text-lg w-full flex items-center`}
 					/>
 				</>
 			</div>

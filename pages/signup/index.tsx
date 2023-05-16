@@ -9,6 +9,8 @@ import { toast } from "react-hot-toast";
 import { signupSchema } from "../../validations/signup.validation";
 import { useRouter } from "next/router";
 import { DASHBOARD } from "../../utils/constant/routes.constant";
+import AuthSocialButton from "@/components/form-components/AuthSocialButton";
+import { BsGithub, BsGoogle } from "react-icons/bs";
 
 const SignUpPage = () => {
 	type FormData = Yup.InferType<typeof signupSchema>;
@@ -33,7 +35,7 @@ const SignUpPage = () => {
 		}
 	};
 	return (
-		<div className="sign-up-form container mx-auto w-96 mt-12 border-2 border-gray-400">
+		<div className="sign-up-form container shadow-lg mx-auto w-96 mt-12">
 			<h2 className="px-12 mt-8 text-center text-2xl font-semibold text-blue-900">Sign Up</h2>
 			<FormProvider {...methods}>
 				<form
@@ -63,6 +65,21 @@ const SignUpPage = () => {
 						errors={errors.confirm_password}
 					/>
 					<SubmitButton />
+					<div className="mt-2 relative flex justify-center text-sm">
+              			<span className="px-2 text-gray-500">
+                			Or continue with
+              			</span>
+            		</div>
+					<div className="mt-6 flex gap-2">
+            			<AuthSocialButton
+              				icon={BsGithub}
+              				onClick={() => {}}
+            			/>
+            			<AuthSocialButton
+              				icon={BsGoogle}
+              				onClick={() => {}}
+            			/>
+          			</div>
 				</form>
 			</FormProvider>
 		</div>
