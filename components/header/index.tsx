@@ -38,8 +38,8 @@ const Header = ({ children }: { children: React.ReactNode }) => {
 		}
 	};
 	return <>
-        <header className="flex flex-wrap container mx-auto max-w-full items-center p-6 justify-between bg-gray-100 shadow-md sticky top-0 z-50">
-            <div className="flex items-center text-blue-900 hover:text-blue-800 cursor-pointer transition duration-150 ">
+        <header className="flex flex-wrap container mx-auto max-w-full items-center px-2 py-1 justify-between bg-gray-100 dark:bg-gray-900 shadow-md sticky top-0 z-50">
+            <div className="flex items-center cursor-pointer transition duration-150 ">
                 <Link href={HOME} legacyBehavior>
                     <Image 
                         alt="Logo"
@@ -62,7 +62,7 @@ const Header = ({ children }: { children: React.ReactNode }) => {
                                 >
                                     <Link
                                         href={item?.link}
-                                        className="text-blue-800 hover:text-blue-900 transition">
+                                        className="text-blue-800 hover:text-blue-900 dark:text-slate-400 dark:hover:text-slate-700 transition">
 
                                         {item?.name}
 
@@ -72,20 +72,25 @@ const Header = ({ children }: { children: React.ReactNode }) => {
                         ) : (
                             <>
                                 <li className="my-3 md:my-0 items-center mr-4 md:inline-block block ">
-                                    <Link href={DASHBOARD} className="text-blue-800 hover:text-blue-900 transition">
-                                        
+                                    <Link href={DASHBOARD} className="text-blue-800 hover:text-blue-900 dark:text-slate-400 dark:hover:text-slate-700 transition">
                                             Dashboard
-                                        
                                     </Link>
                                 </li>
-                                <li className="my-3 md:my-0 items-center mr-4 md:inline-block block ">
+                                <li className="my-3 md:my-0 items-center mr-4 md:inline-block block">
                                     <a
                                         onClick={handleLogout}
-                                        className="text-blue-800 hover:text-blue-900 transition cursor-pointer"
+                                        className="text-blue-800 hover:text-blue-900 dark:text-slate-400 dark:hover:text-slate-700 transition cursor-pointer"
                                     >
                                         Logout
                                     </a>
                                 </li>
+                                <Image
+                                    alt="profile picture"
+                                    height="48"
+                                    width="48"
+                                    className="rounded-full md:inline-block"
+                                    src={user.photoURL??'/images/avatar.webp'}
+                                />
                             </>
                         )}
                     </>

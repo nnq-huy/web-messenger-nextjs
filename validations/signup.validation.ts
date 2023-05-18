@@ -1,13 +1,10 @@
 import * as Yup from "yup";
 import { LOWERCASE_REGEX, NUMERIC_REGEX, UPPERCASE_REGEX } from "../utils/constant/regex.constant";
 
-//fetch from firebase
-const emailAddresses = ["test@gmail.com", "test1@gmail.com", "test2@gmail.com"];
 
 export const signupSchema = Yup.object({
 	email: Yup.string()
 		.email("Email must be a valid email address.")
-		.notOneOf(emailAddresses, "Email address is already taken.")
 		.required("Email is required."),
 	password: Yup.string()
 		.required("Password is required")

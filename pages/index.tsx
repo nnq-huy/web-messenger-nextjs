@@ -4,8 +4,8 @@ import { DASHBOARD } from "../utils/constant/routes.constant";
 
 const Home: NextPage = () => {
 	return (
-        <div className="flex py-2 container mx-auto">
-			<div className="text-gray-600 border border-gray-400 rounded-md px-12 py-24 mt-24 overflow-y-hidden mx-auto">
+        <div className="min-w-full min-h-screen bg-gray-100 dark:bg-slate-800 flex container mx-auto">
+			<div className="text-gray-600 dark:text-gray-100  px-12 py-24 mt-24 overflow-y-hidden mx-auto">
 				<h2 className="text-2xl font-semibold">
 					Get started with nextMessage
 				</h2>
@@ -13,13 +13,14 @@ const Home: NextPage = () => {
 					<Link href={DASHBOARD} legacyBehavior>
 						<button
 							type="button"
-							className="bg-blue-800 hover:bg-blue-700 hover:shadow-lg transition text-white px-4 py-2 rounded-md mx-auto"
+							className="bg-indigo-600 hover:bg-indigo-800 hover:shadow-lg transition text-white px-4 py-2 rounded-md mx-auto"
 						>
 							Go to dashboard
 						</button>
 					</Link>
 				</div>
 			</div>
+			
 		</div>
     );
 };

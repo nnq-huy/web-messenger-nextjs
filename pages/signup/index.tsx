@@ -11,11 +11,12 @@ import { useRouter } from "next/router";
 import { DASHBOARD } from "../../utils/constant/routes.constant";
 import AuthSocialButton from "@/components/form-components/AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
+import createUserDocument from "@/api/createUserDocument";
 
 const SignUpPage = () => {
 	type FormData = Yup.InferType<typeof signupSchema>;
 
-	const { signUp } = useAuth();
+	const { signUp, logInWithGoogle } = useAuth();
 	const router = useRouter();
 
 	const methods = useForm<FormData>({ mode: "onBlur", resolver: yupResolver(signupSchema) });
@@ -28,16 +29,31 @@ const SignUpPage = () => {
 		const toastId = toast.loading("Signing up...");
 		try {
 			await signUp(data.email, data.password);
+			await createUserDocument();
 			toast.success("Successfully signed up!", { id: toastId });
 			router.push(DASHBOARD);
 		} catch (error: any) {
 			toast.error(error.message, { id: toastId });
 		}
 	};
+
+	const googleLogIn = async () => {
+		const toastId = toast.loading("Logging in...");
+		try {
+			await logInWithGoogle();
+			await createUserDocument();
+			toast.success("Successfully logged in!", { id: toastId });
+			router.push(DASHBOARD);
+		} catch (error: any) {
+			toast.error(error.message, { id: toastId });
+		}
+	}
+
 	return (
-		<div className="sign-up-form container shadow-lg mx-auto w-96 mt-12">
-			<h2 className="px-12 mt-8 text-center text-2xl font-semibold text-blue-900">Sign Up</h2>
-			<FormProvider {...methods}>
+		<div className="bg-gray-100 dark:bg-slate-700 min-w-full min-h-screen py-1">
+
+		<div className="sign-up-form container shadow-lg mx-auto w-96 mt-12 bg-gray-200 dark:bg-gray-900 rounded-xl">
+		<h2 className="py-3 px-12 mt-8 text-center text-2xl font-semibold text-indigo-800 dark:text-gray-100">Sign Up</h2>			<FormProvider {...methods}>
 				<form
 					action=""
 					className="w-80 mx-auto pb-12 px-4"
@@ -70,18 +86,19 @@ const SignUpPage = () => {
                 			Or continue with
               			</span>
             		</div>
-					<div className="mt-6 flex gap-2">
+					<div className="mt-6 flex gap-2 justify-center">
             			<AuthSocialButton
               				icon={BsGithub}
               				onClick={() => {}}
             			/>
             			<AuthSocialButton
               				icon={BsGoogle}
-              				onClick={() => {}}
+              				onClick={() => googleLogIn()}
             			/>
           			</div>
 				</form>
 			</FormProvider>
+		</div>
 		</div>
 	);
 };

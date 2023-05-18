@@ -10,6 +10,7 @@ import { loginSchema } from "../../validations/login.validation";
 import { toast } from "react-hot-toast";
 import AuthSocialButton from "@/components/form-components/AuthSocialButton";
 import { BsGithub, BsGoogle  } from 'react-icons/bs';
+import createUserDocument from "@/api/createUserDocument";
 
 
 const LoginPage = () => {
@@ -40,18 +41,20 @@ const LoginPage = () => {
 		const toastId = toast.loading("Logging in...");
 		try {
 			await logInWithGoogle();
+			await createUserDocument();
+
 			toast.success("Successfully logged in!", { id: toastId });
 			router.push(DASHBOARD);
 		} catch (error: any) {
 			toast.error(error.message, { id: toastId });
 		}
 
-	  } 
-
+	}
 
 	return (
-		<div className="sign-in-form container mx-auto w-96 mt-12 shadow-lg">
-			<h2 className="px-12 mt-8 text-center text-2xl font-semibold text-blue-900">Log In</h2>
+		<div className="bg-gray-100 dark:bg-slate-700 min-w-full min-h-screen py-1">
+		<div className="sign-in-form container mx-auto w-96 mt-12 shadow-lg bg-gray-200 dark:bg-gray-900 rounded-xl">
+			<h2 className="py-3 px-12 mt-8 text-center text-2xl font-semibold text-indigo-800 dark:text-gray-100">Log In</h2>
 			<FormProvider {...methods}>
 				<form
 					action=""
@@ -74,11 +77,11 @@ const LoginPage = () => {
 					/>
 					<SubmitButton />
 					<div className="mt-2 relative flex justify-center text-sm">
-              			<span className="px-2 text-gray-500">
+              			<span className="px-2 text-gray-500 dark:text-gray-100">
                 			Or continue with
               			</span>
             		</div>
-					<div className="mt-6 flex gap-2">
+					<div className="mt-6 justify-center flex gap-2">
             			<AuthSocialButton
               				icon={BsGithub}
               				onClick={() => {}}
@@ -91,6 +94,7 @@ const LoginPage = () => {
 				</form>
 			</FormProvider>
           </div>
+		  </div>
 	);
 };
 

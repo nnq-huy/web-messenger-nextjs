@@ -24,6 +24,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 					displayName: user.displayName,
 					email: user.email,
 					uid: user.uid,
+					photoURL: user.photoURL
 				});
 			} else {
 				setUser(null);
