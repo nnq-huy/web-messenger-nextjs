@@ -4,7 +4,7 @@ import { DASHBOARD } from "../utils/constant/routes.constant";
 
 const Home: NextPage = () => {
 	return (
-        <div className="min-w-full min-h-screen bg-gray-100 dark:bg-slate-800 flex container mx-auto">
+        <div className="min-w-full bg-gray-100 dark:bg-slate-800 flex container mx-auto h-[calc(100vh-80px)]">
 			<div className="text-gray-600 dark:text-gray-100  px-12 py-24 mt-24 overflow-y-hidden mx-auto">
 				<h2 className="text-2xl font-semibold">
 					Get started with nextMessage

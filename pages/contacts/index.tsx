@@ -31,7 +31,6 @@ const AddContactPage =  () => {
     const router = useRouter();
 
     const usersRef = collection (db, 'users');
-
     const watchEmail = watch().email;
 
     const onSubmit = (data: FormData) => {
@@ -113,8 +112,7 @@ const AddContactPage =  () => {
 		</div>
     </div>
     </ProtectedRoute>
-    );} else {return<ProtectedRoute>
-        <></>
-    </ProtectedRoute>}
+    );} else {return (<div></div>)
+    }
 }
 export default AddContactPage;

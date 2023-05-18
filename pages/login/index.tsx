@@ -10,7 +10,7 @@ import { loginSchema } from "../../validations/login.validation";
 import { toast } from "react-hot-toast";
 import AuthSocialButton from "@/components/form-components/AuthSocialButton";
 import { BsGithub, BsGoogle  } from 'react-icons/bs';
-import createUserDocument from "@/api/createUserDocument";
+import createUserDocument from "@/utils/actions/createUserDocument";
 
 
 const LoginPage = () => {

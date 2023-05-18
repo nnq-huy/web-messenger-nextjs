@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { DASHBOARD } from "../../utils/constant/routes.constant";
 import AuthSocialButton from "@/components/form-components/AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
-import createUserDocument from "@/api/createUserDocument";
+import createUserDocument from "@/utils/actions/createUserDocument";
 
 const SignUpPage = () => {
 	type FormData = Yup.InferType<typeof signupSchema>;
