@@ -1,5 +1,5 @@
-import {auth, db} from '@/config/firebase';
-import { Contact } from '@/models/contact';
+import {auth, db} from '@/app/config/firebase';
+import { Contact } from '@/app/models/contact';
 import { query, collection, onSnapshot } from "firebase/firestore";
 
 const getContacts =()=>{

@@ -1,20 +1,21 @@
+'use client'
 import React, {useState} from "react";
 import * as Yup from "yup";
-import Image from "next/image";
 import { query, collection, doc, where, limit, onSnapshot, setDoc } from "firebase/firestore";
-import {db} from '@/config/firebase';
-import { searchSchema } from "@/validations/user.search.validation";
+import {db} from '@/app/config/firebase';
+import { searchSchema } from "@/app/validations/user.search.validation";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FormInput } from "@/components/form-components/FormInput";
-import { useAuth } from "@/context/AuthContext";
-import SearchButton from "@/components/form-components/SearchButton";
-import AuthSocialButton from "@/components/form-components/AuthSocialButton";
-import { BsPersonAdd } from "react-icons/bs";
+import { FormInput } from "@/app/components/form-components/FormInput";
+import { useAuth } from "@/app/context/AuthContext";
+import SearchButton from "@/app/components/form-components/SearchButton";
 import { toast } from "react-hot-toast";
-import ProtectedRoute from "@/components/protected-route";
-import { useRouter } from "next/router";
-import { DASHBOARD } from "@/utils/constant/routes.constant";
+import ProtectedRoute from "@/app/components/protected-route/page";
+import { useRouter } from "next/navigation";
+import { DASHBOARD } from "@/app/utils/constant/routes.constant";
+import { PlaceHolderPage } from "@/app/components/PlaceHolder";
+import { ResultCard } from "../components/ResultCard";
+import { Contact } from "../models/contact";
 
 const AddContactPage =  () => {
     type FormData = Yup.InferType<typeof searchSchema>;
@@ -26,7 +27,7 @@ const AddContactPage =  () => {
 		setError,
 	} = methods;
 
-    const [result, setResult] = useState({email:'', uid:'', displayName:'',photoURL:''})
+    const [result, setResult] = useState<Contact>({email:'', uid:'', displayName:'',photoURL:''})
     const {user} = useAuth();
     const router = useRouter();
 
@@ -45,12 +46,12 @@ const AddContactPage =  () => {
             });
 	};
 
-    const addPerson = async ()=>{
+    const addContact = () => {
         const newContactPath = 'users/'+user.uid+'/contacts/'+result.uid;
         const toastId = toast.loading("Adding contact...");
 
 		try {
-            await setDoc(doc(db,newContactPath),result);
+             setDoc(doc(db,newContactPath),result);
             toast.success("Successfully added contact", { id: toastId });
 		} catch (error: any) {
 			toast.error(error.message, { id: toastId });
@@ -78,28 +79,7 @@ const AddContactPage =  () => {
             </FormProvider>
 
             {result.uid!==''?
-                <div className="w-96 bg-white dark:bg-gray-200 rounded-lg shadow-lg flex justify-evenly items-center p-1 mx-auto">
-                    <div className="shrink-0 p-2">
-                        <Image
-                            placeholder="empty"
-                            alt="profile picture"
-                            height="64"
-                            width="64"
-                            className="w-auto rounded-full"
-                            src={result.photoURL==""||!result.photoURL?'/images/avatar.webp':result.photoURL}
-                        />
-                    </div>
-                <div>
-            <div className="px-2 text-xl text-gray-700 font-medium">{result.displayName}</div>
-            <p className="px-2 text-sm text-gray-500">{result.email}</p>
-            </div>
-            <div className="px-2 py-2">
-                <AuthSocialButton
-              		icon={BsPersonAdd}
-              		onClick={() => addPerson()}
-            	/>
-            </div>
-            </div>
+                <ResultCard contact={result} onClick={addContact}/>
             :<div className="text-center text-gray-600 dark:text-gray-200">No user found</div>}
         <div className="flex justify-center pt-8">
 			<button
@@ -112,7 +92,9 @@ const AddContactPage =  () => {
 		</div>
     </div>
     </ProtectedRoute>
-    );} else {return (<div></div>)
+    );} else {return (<div>
+        <PlaceHolderPage/>
+    </div>)
     }
 }
 export default AddContactPage;

@@ -1,11 +1,13 @@
+'use client'
+
 import React, { useState } from "react";
 import Image from "next/image";
 import { BsPersonAdd } from "react-icons/bs";
 import AuthSocialButton from "./form-components/AuthSocialButton";
-import { useRouter } from "next/router";
-import { ADD_CONTACT } from "@/utils/constant/routes.constant";
-import {auth, db} from '@/config/firebase';
-import { Contact } from '@/models/contact';
+import { useRouter } from "next/navigation";
+import { ADD_CONTACT } from "@/app/utils/constant/routes.constant";
+import {auth, db} from '@/app/config/firebase';
+import { Contact } from '@/app/models/contact';
 import { query, collection, onSnapshot } from "firebase/firestore";
 
 export const ContactList = ()=>{

@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Link from "next/link";
-import { DASHBOARD } from "../utils/constant/routes.constant";
+import { DASHBOARD } from "./utils/constant/routes.constant";
 
 const Home: NextPage = () => {
 	return (

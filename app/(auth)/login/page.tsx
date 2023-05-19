@@ -1,5 +1,6 @@
+'use client'
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { FormInput } from "../../components/form-components/FormInput";
@@ -8,9 +9,9 @@ import { useAuth } from "../../context/AuthContext";
 import { DASHBOARD } from "../../utils/constant/routes.constant";
 import { loginSchema } from "../../validations/login.validation";
 import { toast } from "react-hot-toast";
-import AuthSocialButton from "@/components/form-components/AuthSocialButton";
+import AuthSocialButton from "@/app/components/form-components/AuthSocialButton";
 import { BsGithub, BsGoogle  } from 'react-icons/bs';
-import createUserDocument from "@/utils/actions/createUserDocument";
+import createUserDocument from "@/app/utils/actions/createUserDocument";
 
 
 const LoginPage = () => {
