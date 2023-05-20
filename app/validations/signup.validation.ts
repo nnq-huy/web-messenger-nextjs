@@ -3,6 +3,8 @@ import { LOWERCASE_REGEX, NUMERIC_REGEX, UPPERCASE_REGEX } from "../utils/consta
 
 
 export const signupSchema = Yup.object({
+	userName: Yup.string().uppercase().required("User name is required").
+	min(2, "Minimum 2 character required" ),
 	email: Yup.string()
 		.email("Email must be a valid email address.")
 		.required("Email is required."),

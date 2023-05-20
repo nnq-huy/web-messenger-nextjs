@@ -10,12 +10,11 @@ import { FormInput } from "@/app/components/form-components/FormInput";
 import { useAuth } from "@/app/context/AuthContext";
 import SearchButton from "@/app/components/form-components/SearchButton";
 import { toast } from "react-hot-toast";
-import ProtectedRoute from "@/app/components/protected-route/page";
 import { useRouter } from "next/navigation";
-import { DASHBOARD } from "@/app/utils/constant/routes.constant";
 import { PlaceHolderPage } from "@/app/components/PlaceHolder";
 import { ResultCard } from "../components/ResultCard";
 import { Contact } from "../models/contact";
+import { HOME } from "../utils/constant/routes.constant";
 
 const AddContactPage =  () => {
     type FormData = Yup.InferType<typeof searchSchema>;
@@ -59,12 +58,11 @@ const AddContactPage =  () => {
     }
 
     if (user) {return (
-        <ProtectedRoute>
-        <div className="bg-gray-100 dark:bg-slate-700 min-w-full min-h-screen py-1">  
+        <div className="bg-gray-100 dark:bg-slate-700 min-h-screen py-1">  
             <FormProvider {...methods}>
                 <form
 		            action=""
-			        className="w-96 mx-auto pb-12 mt-20"
+			        className="w-80 mx-auto pb-12 mt-20"
 			        onSubmit={handleSubmit(onSubmit)}
 		        >
                     <FormInput
@@ -85,13 +83,12 @@ const AddContactPage =  () => {
 			<button
 				type="button"
 				className="h-12 text-center w-24 bg-indigo-600 rounded-md hover:shadow-lg hover:bg-indigo-800 text-lg transition"
-                onClick={()=>{router.push(DASHBOARD)}}
+                onClick={()=>{router.push(HOME)}}
 			>
 				<p className="capitalize text-gray-100 font-normal">back</p>
 			</button>
 		</div>
     </div>
-    </ProtectedRoute>
     );} else {return (<div>
         <PlaceHolderPage/>
     </div>)

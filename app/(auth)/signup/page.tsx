@@ -9,7 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-hot-toast";
 import { signupSchema } from "../../validations/signup.validation";
 import { useRouter } from "next/navigation";
-import { DASHBOARD } from "../../utils/constant/routes.constant";
+import { HOME } from "../../utils/constant/routes.constant";
 import AuthSocialButton from "@/app/components/form-components/AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import createUserDocument from "@/app/utils/actions/createUserDocument";
@@ -30,21 +30,21 @@ const SignUpPage = () => {
 		const toastId = toast.loading("Signing up...");
 		try {
 			await signUp(data.email, data.password);
-			await createUserDocument();
+			await createUserDocument(data.userName);
 			toast.success("Successfully signed up!", { id: toastId });
-			router.push(DASHBOARD);
+			router.push(HOME);
 		} catch (error: any) {
 			toast.error(error.message, { id: toastId });
 		}
 	};
 
-	const googleLogIn = async () => {
+	const googleSignUp = async () => {
 		const toastId = toast.loading("Logging in...");
 		try {
 			await logInWithGoogle();
 			await createUserDocument();
 			toast.success("Successfully logged in!", { id: toastId });
-			router.push(DASHBOARD);
+			router.push(HOME);
 		} catch (error: any) {
 			toast.error(error.message, { id: toastId });
 		}
@@ -60,6 +60,13 @@ const SignUpPage = () => {
 					className="w-80 mx-auto pb-12 px-4"
 					onSubmit={handleSubmit(onSubmit)}
 				>
+					<FormInput
+						label="Name"
+						name="userName"
+						type="userName"
+						formOptions={signupSchema.fields.userName}
+						errors={errors.userName}
+					/>
 					<FormInput
 						label="Email"
 						name="email"
@@ -81,7 +88,7 @@ const SignUpPage = () => {
 						formOptions={signupSchema.fields.confirm_password}
 						errors={errors.confirm_password}
 					/>
-					<SubmitButton />
+					<SubmitButton label="sign up" />
 					<div className="mt-2 relative flex justify-center text-sm">
               			<span className="px-2 text-gray-500">
                 			Or continue with
@@ -94,7 +101,7 @@ const SignUpPage = () => {
             			/>
             			<AuthSocialButton
               				icon={BsGoogle}
-              				onClick={() => googleLogIn()}
+              				onClick={() => googleSignUp()}
             			/>
           			</div>
 				</form>

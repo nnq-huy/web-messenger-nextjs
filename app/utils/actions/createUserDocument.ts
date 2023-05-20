@@ -2,11 +2,11 @@ import {auth, db} from '@/app/config/firebase';
 import {setDoc, doc} from 'firebase/firestore';
 
 
-const createUserDocument = async ()=>{
+const createUserDocument = async (userName?:string)=>{
     const {uid, email, displayName, photoURL} = auth.currentUser!;
 
     const user = {
-        displayName: displayName ??'',
+        displayName: displayName ?? userName,
         email:email ?? '',
         uid: uid ?? '',
         photoURL: photoURL ??'',

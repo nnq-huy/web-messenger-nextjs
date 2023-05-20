@@ -1,28 +1,23 @@
+'use client'
 import type { NextPage } from "next";
-import Link from "next/link";
-import { DASHBOARD } from "./utils/constant/routes.constant";
+import { ChatWindow } from "./components/chats/ChatWindow";
+import { ContactList } from "./components/ContactList";
+import { PlaceHolderPage } from "./components/PlaceHolder";
+import { useAuth } from "./context/AuthContext";
 
 const Home: NextPage = () => {
-	return (
-        <div className="min-w-full bg-gray-100 dark:bg-slate-800 flex container mx-auto h-[calc(100vh-80px)]">
-			<div className="text-gray-600 dark:text-gray-100  px-12 py-24 mt-24 overflow-y-hidden mx-auto">
-				<h2 className="text-2xl font-semibold">
-					Get started with nextMessage
-				</h2>
-				<div className="flex mx-auto pt-12 pb-0">
-					<Link href={DASHBOARD} legacyBehavior>
-						<button
-							type="button"
-							className="bg-indigo-600 hover:bg-indigo-800 hover:shadow-lg transition text-white px-4 py-2 rounded-md mx-auto"
-						>
-							Go to dashboard
-						</button>
-					</Link>
-				</div>
+	const {user} = useAuth();
+
+	if (user) {return (
+			<div className="flex flex-1 bg-gray-100 dark:bg-gradient-to-b from-slate-800 to-slate-600 mx-auto shadow-lg min-w-full overflow-auto h-[calc(100vh-80px)]">
+			<ContactList/>
+			<ChatWindow/>
 			</div>
-			
-		</div>
-    );
+	)} else {return(
+			<div>
+				<PlaceHolderPage/>
+			</div>
+	)}
 };
 
 export default Home;

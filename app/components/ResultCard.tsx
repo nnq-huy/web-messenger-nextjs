@@ -1,7 +1,7 @@
 import { Contact } from '@/app/models/contact';
-import Image from "next/image";
 import AuthSocialButton from './form-components/AuthSocialButton';
 import { BsPersonAdd } from 'react-icons/bs';
+import { Avatar } from './Avatar';
 
 interface ResultCardProps {
     contact: Contact;
@@ -11,14 +11,7 @@ export const ResultCard : React.FC<ResultCardProps> = ({contact, onClick})=>{
     return (
         <div className="w-96 bg-white dark:bg-gray-200 rounded-lg shadow-lg flex justify-evenly items-center p-1 mx-auto">
             <div className="shrink-0 p-2">
-                <Image
-                    placeholder="empty"
-                    alt="profile picture"
-                    height="64"
-                    width="64"
-                    className="w-auto rounded-full"
-                    src={contact.photoURL==""||!contact.photoURL?'/images/avatar.webp':contact.photoURL}
-                />
+                <Avatar photoURL={contact.photoURL}/>
             </div>
             <div>
             <div className="px-2 text-xl text-gray-700 font-medium">{contact.displayName}</div>
