@@ -9,19 +9,20 @@ import { useAuth } from "../../context/AuthContext";
 import { ChatBubble } from "./ChatBubble";
 import { ChatInput } from "./ChatInput";
 import { Message } from "@/app/models/message";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "@/app/config/firebase";
+import getMessages from "@/app/utils/actions/getMessages";
+import useMessages from "@/app/hooks/useMessages";
 
 export const ChatWindow = () => {
   const {contact} = useCurrentContact();
-  const {user}=useAuth();
-  const mockMessage:Message = {
-    uid: "",
-    content: "hello",
-    from: "",
-    to: "",
-    timeStamp: "",
-    isPicture: false
-  }
-  
+  const {messages, setMessages} = useMessages();
+
+
+getMessages(contact.threadId??'').then((value)=>{
+  setMessages(value);
+});
+
 
   if(contact.uid!='') {return (
     <div className="flex w-full flex-col justify-between dark:bg-gradient-to-b from-gray-900 to-gray-600 p-2">
@@ -30,8 +31,13 @@ export const ChatWindow = () => {
         <p className=" text-gray-800 dark:text-gray-200">{contact.displayName}</p>
         </div>
         <div className="flex flex-col p-4 overflow-auto">
-          <ChatBubble message={mockMessage} isLeft={true}/>
-          <ChatBubble message={mockMessage} isLeft={false}/>
+          <ul>
+            {messages.map((message)=>(
+              <li key={message.id}>
+                {message.from==contact.uid?<ChatBubble  message={message} isLeft={true}/>:<ChatBubble message={message} isLeft={false}/>}
+              </li>
+            ))}
+          </ul>
       </div>
       <ChatInput/>
     </div>

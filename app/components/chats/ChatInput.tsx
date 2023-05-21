@@ -1,9 +1,39 @@
+'use client'
+import { db } from "@/app/config/firebase";
+import { useAuth } from "@/app/context/AuthContext";
+import useCurrentContact from "@/app/hooks/useCurrentContact";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { useState } from "react";
 import { BsEmojiSmile, BsImage, BsSend } from "react-icons/bs";
+import { toast } from "react-hot-toast";
 
 interface ChatInputProps {
     onClick?:()=>void;
 }
 export const ChatInput : React.FC<ChatInputProps> = ({onClick})=>{
+  const {user}=useAuth();
+  const {contact} = useCurrentContact();
+  const [message, setMessage] = useState("");
+
+  const sendMessage = async () =>{
+
+    if (message.trim()===""){
+      toast.error('please enter an message...')
+      return
+    }else {
+      try {
+        await addDoc(collection(db,"messages"), {
+        threadId:contact.threadId,
+        content: message,
+        from: user.uid,
+        to: contact.uid,
+        timeStamp: serverTimestamp(),
+        isPicture: false
+      });
+      setMessage("");
+      } catch(e) {toast.error('Cannot send message: '+e)}
+    }
+  }
 return (
 <div className="flex flex-row items-center h-16 rounded-xl shadow-xl bg-white dark:bg-gray-600 w-full px-4">
         <div>
@@ -18,6 +48,8 @@ return (
                 <input
                   title="chat"
                   type="text"
+                  value={message}
+                  onChange={(e)=>setMessage(e.target.value)}
                   className="bg-gray-50  dark:bg-gray-300 flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
                 />
                 <button
@@ -29,6 +61,7 @@ return (
             </div>
             <div className="ml-4">
               <button
+              onClick={sendMessage}
                 className="flex items-center justify-center bg-indigo-600 hover:bg-indigo-800 rounded-xl text-white px-4 py-1 flex-shrink-0"
               >
                 <span>Send</span>

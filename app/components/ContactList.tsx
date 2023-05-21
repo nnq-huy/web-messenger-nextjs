@@ -1,44 +1,29 @@
 'use client'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsPersonAdd } from "react-icons/bs";
 import AuthSocialButton from "./form-components/AuthSocialButton";
 import { useRouter } from "next/navigation";
-import { query, collection, onSnapshot } from "firebase/firestore";
+import { query, collection, onSnapshot, getDocs } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 import { Contact } from "../models/contact";
 import { ADD_CONTACT } from "../utils/constant/routes.constant";
 import useCurrentContact from "../hooks/useCurrentContact";
 import { Avatar } from "./Avatar";
+import useContacts from "../hooks/useContacts";
+import getContacts from "../utils/actions/getContacts";
+import { toast } from "react-hot-toast";
 
 export const ContactList = ()=>{
 
     const router = useRouter();
-    const [contacts, setContacts] = useState<Contact[]>([]);
+    const {contacts, setContacts} = useContacts();
     const {contact, set} = useCurrentContact();
     const {uid} = auth.currentUser!;
-    const contactsRef = collection(db,'users/'+uid+'/contacts');
-    const q = query(contactsRef);
+
+    getContacts().then((value)=>{
+        setContacts(value);
+    }).catch((e)=>{toast.error('Error loading contacts: '+e)});
     
-
-    onSnapshot(q, (QuerySnapshot) => {
-        let contacts :Array<Contact> = [];
-         const a = QuerySnapshot.docChanges();
-         a.forEach((value)=>{
-            const personData = value.doc.data();
-            const contact: Contact = {
-                uid: personData['uid'],
-                displayName: personData['displayName'],
-                email: personData['email'],
-                photoURL: personData['photoURL'],
-                unread:personData['unread'],
-                lastMessage:personData['lastMessage'],
-                lastMessageDate:personData['lastMessageDate'],
-            }
-            contacts.push(contact);
-         })
-         setContacts(contacts);
-    });
-
     return (
         <div className="flex">
             <div className="py-8 overflow-y-auto shadow-lg bg-gray-200 sm:w-0 md:w-60 w-60 dark:bg-gradient-to-b from-gray-800 to-gray-500  dark:border-gray-700">

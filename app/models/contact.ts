@@ -6,4 +6,5 @@ export type Contact = {
     unread?:boolean;
     lastMessage?:string;
     lastMessageDate?:string;
+    threadId?:string;
 };

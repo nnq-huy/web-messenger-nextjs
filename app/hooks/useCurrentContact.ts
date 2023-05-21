@@ -7,7 +7,7 @@ interface CurrentContactStore {
 }
 
 const useCurrentContact = create<CurrentContactStore>((set) => ({
-    contact:{uid:'',displayName:'',email:'', photoURL:''},
+    contact:{uid:'',displayName:'',email:'', photoURL:'',threadId:''},
     set: (newContact)=>set({contact:newContact})
 }));
 

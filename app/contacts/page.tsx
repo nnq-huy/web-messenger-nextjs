@@ -38,7 +38,8 @@ const AddContactPage =  () => {
             onSnapshot(q,(QuerySnapshot)=>{
                 if(!QuerySnapshot.empty){
                     const res = QuerySnapshot.docs[0].data();
-                setResult({email: res['email'],uid: res['uid'],displayName: res['displayName'], photoURL:res['photoURL']});
+                    const threadId = user.uid > res['uid'] ? user.uid + res['uid'] : res['uid'] + user.uid;
+                setResult({email: res['email'],uid: res['uid'],displayName: res['displayName'], photoURL:res['photoURL'], threadId:threadId});
                 } else {
                     setResult({email:'', uid:'', displayName:'', photoURL:''})
                 }
@@ -48,7 +49,7 @@ const AddContactPage =  () => {
     const addContact = () => {
         const newContactPath = 'users/'+user.uid+'/contacts/'+result.uid;
         const toastId = toast.loading("Adding contact...");
-
+        
 		try {
              setDoc(doc(db,newContactPath),result);
             toast.success("Successfully added contact", { id: toastId });

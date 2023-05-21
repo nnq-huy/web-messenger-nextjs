@@ -1,8 +1,11 @@
+import { Timestamp } from "firebase/firestore";
+
 export type Message = {
-    uid: string;
+    threadId:string,
     content: string;
     from: string;
     to: string;
-    timeStamp:string;
+    timeStamp:Timestamp;
     isPicture:boolean;
+    id?:string;
 };
