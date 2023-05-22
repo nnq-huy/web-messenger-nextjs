@@ -34,11 +34,11 @@ export const ChatBubble : React.FC<ChatBubbleProps> = ({message, isLeft})=>{
 
    if (isLeft) {return (
         <div className="flex w-full mt-2 space-x-3 max-w-xs">
-        <div>
+        <div className="justify-end">
           <div className="bg-white dark:bg-gray-500 p-3 rounded-r-lg shadow rounded-bl-lg">
             <p className="text-sm text-gray-800 dark:text-gray-100">{message.content}</p>
           </div>
-          <span className="text-xs text-gray-500 leading-none">{getTimeSinceMessageReceived(message.timeStamp)}</span>
+          <p className=" pt-1 text-xs text-gray-500">{getTimeSinceMessageReceived(message.timeStamp)}</p>
         </div>
         </div>
     );} else {return(
@@ -47,7 +47,7 @@ export const ChatBubble : React.FC<ChatBubbleProps> = ({message, isLeft})=>{
           <div className="bg-indigo-600 text-white p-3 rounded-l-lg shadow rounded-br-lg">
             <p className="text-sm">{message.content}</p>
           </div>
-          <span className="text-xs text-gray-500 leading-none">{getTimeSinceMessageReceived(message.timeStamp)}</span>
+          <p className="text-end pt-1 text-xs text-gray-500 leading-none">{getTimeSinceMessageReceived(message.timeStamp)}</p>
         </div>
       </div>
     )}
