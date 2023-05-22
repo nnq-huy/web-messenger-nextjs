@@ -6,13 +6,15 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useState } from "react";
 import { BsEmojiSmile, BsImage, BsSend } from "react-icons/bs";
 import { toast } from "react-hot-toast";
+import useMessages from "@/app/hooks/useMessages";
 
 interface ChatInputProps {
-    onClick?:()=>void;
+  scroll:React.RefObject<HTMLDivElement>
 }
-export const ChatInput : React.FC<ChatInputProps> = ({onClick})=>{
+export const ChatInput : React.FC<ChatInputProps> = ({scroll})=>{
   const {user}=useAuth();
   const {contact} = useCurrentContact();
+  const {setMessages} = useMessages();
   const [message, setMessage] = useState("");
 
   const sendMessage = async () =>{
@@ -31,6 +33,7 @@ export const ChatInput : React.FC<ChatInputProps> = ({onClick})=>{
         isPicture: false
       });
       setMessage("");
+      scroll.current?.scrollIntoView({behavior:"smooth"});
       } catch(e) {toast.error('Cannot send message: '+e)}
     }
   }

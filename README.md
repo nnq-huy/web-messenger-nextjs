@@ -14,6 +14,10 @@ Main features:
 ## Link to demo
 
 [https://web-messenger-nextjs.vercel.app](https://web-messenger-nextjs.vercel.app/)
+
+- create your own account or log in using test credential:
+  test@mail.test, password: aA123456
+
 ## To run the project
 
 - clone the repo

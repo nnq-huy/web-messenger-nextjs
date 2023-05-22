@@ -1,27 +1,21 @@
 //layout: conversations list, bottom send message
 'use client'
-import React from "react";
-import { BsEmojiSmile, BsImage, BsSend } from "react-icons/bs";
-import { Contact } from "../../models/contact";
+import React, { useRef } from "react";
 import useCurrentContact from "../../hooks/useCurrentContact";
 import { Avatar } from "../Avatar";
-import { useAuth } from "../../context/AuthContext";
 import { ChatBubble } from "./ChatBubble";
 import { ChatInput } from "./ChatInput";
-import { Message } from "@/app/models/message";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "@/app/config/firebase";
 import getMessages from "@/app/utils/actions/getMessages";
 import useMessages from "@/app/hooks/useMessages";
 
 export const ChatWindow = () => {
   const {contact} = useCurrentContact();
   const {messages, setMessages} = useMessages();
+  const scroll = useRef<HTMLDivElement>(null);
 
-
-getMessages(contact.threadId??'').then((value)=>{
-  setMessages(value);
-});
+  getMessages(contact.threadId!).then((value)=>{
+    setMessages(value);
+  });
 
 
   if(contact.uid!='') {return (
@@ -38,8 +32,9 @@ getMessages(contact.threadId??'').then((value)=>{
               </li>
             ))}
           </ul>
+          <span ref={scroll}></span>
       </div>
-      <ChatInput/>
+      <ChatInput scroll={scroll} />
     </div>
     );} else return (
         <div className="flex w-full justify-center items-center text-gray-500">

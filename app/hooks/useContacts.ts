@@ -7,7 +7,7 @@ interface ContactsStore {
 }
 
 const useContacts = create<ContactsStore>((set) => ({
-    contacts:[{uid:'',displayName:'',email:'', photoURL:'',threadId:''}],
+    contacts:[],
     setContacts: (newContact)=>set({contacts:newContact})
 }));
 
