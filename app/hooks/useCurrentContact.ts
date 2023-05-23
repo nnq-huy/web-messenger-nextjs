@@ -3,12 +3,12 @@ import { Contact } from '../models/contact';
 
 interface CurrentContactStore {
   contact: Contact;
-  set: (newContact: Contact) => void;
+  setCurentContact: (newContact: Contact) => void;
 }
 
 const useCurrentContact = create<CurrentContactStore>((set) => ({
     contact:{uid:'',displayName:'',email:'', photoURL:'',threadId:''},
-    set: (newContact)=>set({contact:newContact})
+    setCurentContact: (newContact)=>set({contact:newContact})
 }));
 
 export default useCurrentContact;

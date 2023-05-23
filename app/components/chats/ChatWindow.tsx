@@ -1,6 +1,6 @@
 //layout: conversations list, bottom send message
 'use client'
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import useCurrentContact from "../../hooks/useCurrentContact";
 import { Avatar } from "../Avatar";
 import { ChatBubble } from "./ChatBubble";
@@ -14,9 +14,13 @@ export const ChatWindow = () => {
   const scroll = useRef<HTMLDivElement>(null);
 
 
-  getMessages(contact.threadId!).then((value)=>{
-    setMessages(value);
+  if(contact.threadId!=""){
+    getMessages(contact.threadId!).then((value)=>{
+      setMessages(value);
+    }).catch((e)=>{
+      //toast.error('Error loading messages: '+e)
   });
+  }
 
   if(contact.uid!='') {return (
     <div className="flex w-full flex-col justify-between dark:bg-gradient-to-b from-gray-900 to-gray-600 p-2">

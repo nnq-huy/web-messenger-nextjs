@@ -11,7 +11,7 @@ const createUserDocument = async (userName?:string)=>{
         uid: uid ?? '',
         photoURL: photoURL ??'',
     }
-    await setDoc(doc(db,"users/"+uid),user);
+    await setDoc(doc(db,"users/"+uid),user,{ merge: true });
 }
 
 export default createUserDocument;

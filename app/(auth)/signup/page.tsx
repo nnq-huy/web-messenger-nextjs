@@ -9,10 +9,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-hot-toast";
 import { signupSchema } from "../../validations/signup.validation";
 import { useRouter } from "next/navigation";
-import { HOME } from "../../utils/constant/routes.constant";
+import { HOME, LOGIN } from "../../utils/constant/routes.constant";
 import AuthSocialButton from "@/app/components/form-components/AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import createUserDocument from "@/app/utils/actions/createUserDocument";
+import Link from "next/link";
 
 const SignUpPage = () => {
 	type FormData = Yup.InferType<typeof signupSchema>;
@@ -51,10 +52,10 @@ const SignUpPage = () => {
 	}
 
 	return (
-		<div className="bg-gray-100 dark:bg-slate-700 min-w-full min-h-screen py-1">
+		<div className="bg-gray-100 dark:bg-slate-700 w-full min-h-screen py-1">
 
-		<div className="sign-up-form container shadow-lg mx-auto w-96 mt-12 bg-gray-200 dark:bg-gray-900 rounded-xl">
-		<h2 className="py-3 px-12 mt-8 text-center text-2xl font-semibold text-indigo-800 dark:text-gray-100">Sign Up</h2>			<FormProvider {...methods}>
+		<div className="sign-up-form container shadow-lg mx-auto w-fit p-2 mt-12 bg-gray-200 dark:bg-gray-900 rounded-xl">
+		<h2 className="px-12 mt-8 text-center text-2xl font-semibold text-indigo-800 dark:text-gray-100">Sign Up</h2>			<FormProvider {...methods}>
 				<form
 					action=""
 					className="w-80 mx-auto pb-12 px-4"
@@ -90,8 +91,8 @@ const SignUpPage = () => {
 					/>
 					<SubmitButton label="sign up" />
 					<div className="mt-2 relative flex justify-center text-sm">
-              			<span className="px-2 text-gray-500">
-                			Or continue with
+					<span className="text-center px-2 text-gray-500 dark:text-gray-100">
+                			Already have an account? <Link className="text-sky-500" href={LOGIN}>Log in </Link>or continue with
               			</span>
             		</div>
 					<div className="mt-6 flex gap-2 justify-center">

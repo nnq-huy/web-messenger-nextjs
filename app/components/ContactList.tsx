@@ -1,11 +1,8 @@
 'use client'
-import React, { useEffect, useState } from "react";
 import { BsPersonAdd } from "react-icons/bs";
 import AuthSocialButton from "./form-components/AuthSocialButton";
 import { useRouter } from "next/navigation";
-import { query, collection, onSnapshot, getDocs } from "firebase/firestore";
-import { auth, db } from "../config/firebase";
-import { Contact } from "../models/contact";
+import { auth } from "../config/firebase";
 import { ADD_CONTACT } from "../utils/constant/routes.constant";
 import useCurrentContact from "../hooks/useCurrentContact";
 import { Avatar } from "./Avatar";
@@ -17,18 +14,20 @@ export const ContactList = ()=>{
 
     const router = useRouter();
     const {contacts, setContacts} = useContacts();
-    const {contact, set} = useCurrentContact();
+    const {contact, setCurentContact} = useCurrentContact();
     const {uid} = auth.currentUser!;
 
-    getContacts().then((value)=>{
+    if(uid){getContacts().then((value)=>{
         setContacts(value);
-    }).catch((e)=>{toast.error('Error loading contacts: '+e)});
+    }).catch((e)=>{
+        //toast.error('Error loading contacts: '+e)
+    });}
     
     return (
         <div className="flex">
-            <div className="py-8 overflow-y-auto shadow-lg bg-gray-200 sm:w-0 md:w-60 w-60 dark:bg-gradient-to-b from-gray-800 to-gray-500  dark:border-gray-700">
+            <div className="py-8 overflow-y-auto shadow-lg bg-gray-200 w-20 sm:w-20 md:w-60 dark:bg-gradient-to-b from-gray-800 to-gray-500  dark:border-gray-700">
                 <div className="flex px-2 py-2 justify-between">
-                    <h2 className="px-5 text-lg font-medium text-gray-600 dark:text-white">Contacts</h2>
+                    <h2 className="overflow-hidden -z-10 sm:-z-10 md:z-0 sm:p-0 md:px-5 text-lg font-medium text-gray-600 dark:text-white">Contacts</h2>
                     <AuthSocialButton
               	        icon={BsPersonAdd}
               	        onClick={() => {
@@ -43,7 +42,7 @@ export const ContactList = ()=>{
                         <li key={person.uid}>
                             <button
                                 className="relative flex items-center w-full px-5 py-2 dark:hover:bg-gray-700 gap-x-2 hover:bg-gray-100 focus:outline-none"
-                                onClick={()=>set(person)}
+                                onClick={()=>setCurentContact(person)}
                             >
                                 <Avatar photoURL={person.photoURL}/>
                                 <div className="truncate text-left rtl:text-right">

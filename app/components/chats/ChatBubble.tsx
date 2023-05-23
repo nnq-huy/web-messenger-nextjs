@@ -1,3 +1,4 @@
+'use client'
 import { Timestamp } from 'firebase/firestore';
 import { Message } from '../../models/message';
 

@@ -10,14 +10,17 @@ import {
 	GoogleAuthProvider,
 } from "firebase/auth";
 import { auth } from "../config/firebase";
+import useCurrentContact from "../hooks/useCurrentContact";
 
 const AuthContext = createContext({});
 
 export const useAuth = () => useContext<any>(AuthContext);
 
+
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<any>(null);
 	const [loading, setLoading] = useState<boolean>(true);
+	const {contact, setCurentContact} = useCurrentContact();
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -51,6 +54,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
 	const logOut = async () => {
 		setUser(null);
+		setCurentContact({uid:'',displayName:'',email:'',threadId:''});
 		await signOut(auth);
 	};
 

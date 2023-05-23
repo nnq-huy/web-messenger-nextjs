@@ -11,7 +11,8 @@ import { toast } from "react-hot-toast";
 import AuthSocialButton from "@/app/components/form-components/AuthSocialButton";
 import { BsGithub, BsGoogle  } from 'react-icons/bs';
 import createUserDocument from "@/app/utils/actions/createUserDocument";
-import { HOME } from "@/app/utils/constant/routes.constant";
+import { HOME, SIGN_UP} from "@/app/utils/constant/routes.constant";
+import Link from "next/link";
 
 
 const LoginPage = () => {
@@ -53,8 +54,8 @@ const LoginPage = () => {
 	}
 
 	return (
-		<div className="bg-gray-100 dark:bg-slate-700 min-w-full min-h-screen py-1">
-		<div className="sign-in-form mx-auto w-96 mt-12 shadow-lg bg-gray-200 dark:bg-gray-900 rounded-xl">
+		<div className="bg-gray-100 dark:bg-slate-700 w-full min-h-screen py-1">	
+			<div className="sign-in-form w-fit p-2 mx-auto mt-12 shadow-lg bg-gray-200 dark:bg-gray-900 rounded-xl">
 			<h2 className="py-3 px-12 mt-8 text-center text-2xl font-semibold text-indigo-800 dark:text-gray-100">Log In</h2>
 			<FormProvider {...methods}>
 				<form
@@ -78,8 +79,8 @@ const LoginPage = () => {
 					/>
 					<SubmitButton label="login" />
 					<div className="mt-2 relative flex justify-center text-sm">
-              			<span className="px-2 text-gray-500 dark:text-gray-100">
-                			Or continue with
+              			<span className="px-2 text-center text-gray-500 dark:text-gray-100">
+                			no account? <Link className="text-sky-500" href={SIGN_UP}>Sign up </Link>or continue with
               			</span>
             		</div>
 					<div className="mt-6 justify-center flex gap-2">

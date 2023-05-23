@@ -1,6 +1,6 @@
 import "./globals.css";
 import { AuthContextProvider } from "./context/AuthContext";
-import Header from "./components/header";
+import Header from "./components/header/Header";
 import ToasterContext from "./context/ToasterContext";
 
 
