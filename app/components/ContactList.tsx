@@ -2,13 +2,15 @@
 import { BsPersonAdd } from "react-icons/bs";
 import AuthSocialButton from "./form-components/AuthSocialButton";
 import { useRouter } from "next/navigation";
-import { auth } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import { ADD_CONTACT } from "../utils/constant/routes.constant";
 import useCurrentContact from "../hooks/useCurrentContact";
 import { Avatar } from "./Avatar";
 import useContacts from "../hooks/useContacts";
-import getContacts from "../utils/actions/getContacts";
 import { toast } from "react-hot-toast";
+import { useEffect } from "react";
+import { collection, query, onSnapshot } from "firebase/firestore";
+import { Contact } from "../models/contact";
 
 export const ContactList = ()=>{
 
@@ -17,12 +19,32 @@ export const ContactList = ()=>{
     const {contact, setCurentContact} = useCurrentContact();
     const {uid} = auth.currentUser!;
 
-    if(uid){getContacts().then((value)=>{
-        setContacts(value);
-    }).catch((e)=>{
-        //toast.error('Error loading contacts: '+e)
-    });}
-    
+    useEffect(()=>{
+        const q = query(collection(db,'users/'+uid+'/contacts'));
+        onSnapshot(q, (QuerySnapshot)=>{
+            let contactList :Array<Contact> = [];
+            QuerySnapshot.forEach((value)=>{
+                const personData = value.data();
+        const contact: Contact = {
+            uid: personData['uid'],
+            displayName: personData['displayName'],
+            email: personData['email'],
+            photoURL: personData['photoURL'],
+            unread:personData['unread'],
+            lastMessage:personData['lastMessage'],
+            lastMessageDate:personData['lastMessageDate'],
+            threadId:personData['threadId']
+        }
+        contactList.push(contact);
+        })
+            setContacts(contactList);
+        },
+          (e)=>{
+            if (e.code!='permission-denied'){toast.error('Cannot load contacts: '+e.message)}},
+          );
+        return ()=>{}
+    },[uid, setContacts])
+
     return (
         <div className="flex">
             <div className="py-8 overflow-y-auto shadow-lg bg-gray-200 w-20 sm:w-20 md:w-60 dark:bg-gradient-to-b from-gray-800 to-gray-500  dark:border-gray-700">

@@ -1,26 +1,46 @@
 //layout: conversations list, bottom send message
 'use client'
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import useCurrentContact from "../../hooks/useCurrentContact";
 import { Avatar } from "../Avatar";
 import { ChatBubble } from "./ChatBubble";
 import { ChatInput } from "./ChatInput";
-import getMessages from "@/app/utils/actions/getMessages";
 import useMessages from "@/app/hooks/useMessages";
+import toast from "react-hot-toast";
+import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { db } from "@/app/config/firebase";
+import { Message } from "@/app/models/message";
 
 export const ChatWindow = () => {
   const {contact} = useCurrentContact();
   const {messages, setMessages} = useMessages();
   const scroll = useRef<HTMLDivElement>(null);
 
-
-  if(contact.threadId!=""){
-    getMessages(contact.threadId!).then((value)=>{
-      setMessages(value);
-    }).catch((e)=>{
-      //toast.error('Error loading messages: '+e)
-  });
-  }
+useEffect(()=>{
+  const messagesRef = collection(db,'messages');
+  const q = query(messagesRef, where("threadId", "==", contact.threadId),orderBy("timeStamp","asc"));
+  onSnapshot(q, (QuerySnapshot)=>{
+    let messagesList :Array<Message> = [];
+      QuerySnapshot.forEach((value)=>{
+          const messageData = value.data();
+      const message: Message = {
+          threadId: messageData['threadId'],
+          content: messageData['content'],
+          from: messageData['from'],
+          to: messageData['to'],
+          timeStamp: messageData['timeStamp'],
+          isPicture: messageData['isPicture'],
+          id:value.id
+      }
+      messagesList.push(message);
+      })
+      setMessages(messagesList);
+  },
+    (e)=>{
+      if (e.code!='permission-denied'){toast.error('Cannot load messages: '+e.message)}},
+    );
+  return ()=>{}
+},[contact.threadId, setMessages])
 
   if(contact.uid!='') {return (
     <div className="flex w-full flex-col justify-between dark:bg-gradient-to-b from-gray-900 to-gray-600 p-2">
