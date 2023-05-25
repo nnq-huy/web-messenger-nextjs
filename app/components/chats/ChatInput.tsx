@@ -89,7 +89,8 @@ export const ChatInput : React.FC<ChatInputProps> = ({scroll})=>{
   }
 
   const openFileDialog = () => {
-    inputFile.current.click();
+    const { current } = inputFile;
+    (current || { click: () => {}}).click();
   };
 
   const sendImage = async (url:string)=>{
@@ -110,7 +111,7 @@ export const ChatInput : React.FC<ChatInputProps> = ({scroll})=>{
 return (
   <div>
 <div className="flex flex-row items-center h-16 rounded-xl shadow-xl bg-white dark:bg-gray-600 w-full px-2">
-        <div> <input type='file' accept="image/*" id='file' ref={inputFile} onChange={uploadImage} className="hidden"/>
+        <div> <input type="file" accept="image/*" id='file' ref={inputFile} onChange={uploadImage} className="hidden"/>
           <button
             onClick={openFileDialog}
             className="flex items-center justify-center text-gray-400 hover:text-gray-600"
