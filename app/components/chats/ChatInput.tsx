@@ -1,12 +1,12 @@
 'use client'
-import { db } from "@/app/config/firebase";
+import { db, storage } from "@/app/config/firebase";
 import { useAuth } from "@/app/context/AuthContext";
 import useCurrentContact from "@/app/hooks/useCurrentContact";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { useState } from "react";
+import { ref, getDownloadURL, uploadBytesResumable, uploadBytes } from "firebase/storage";
+import { useRef, useState } from "react";
 import { BsEmojiSmile, BsImage, BsSend } from "react-icons/bs";
 import { toast } from "react-hot-toast";
-import useMessages from "@/app/hooks/useMessages";
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 
@@ -17,9 +17,11 @@ interface ChatInputProps {
 export const ChatInput : React.FC<ChatInputProps> = ({scroll})=>{
   const {user}=useAuth();
   const {contact} = useCurrentContact();
-  const {setMessages} = useMessages();
   const [message, setMessage] = useState("");
   const [showEmojis, setShowEmojis] = useState(false);
+  const inputFile = useRef(null);
+
+
 
   const addEmoji = (e:any) => {
     let sym = e.unified.split("-");
@@ -49,11 +51,68 @@ export const ChatInput : React.FC<ChatInputProps> = ({scroll})=>{
       } catch(e) {toast.error('Cannot send message: '+e)}
     }
   }
+  const uploadImage = (e:any)=>{
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const imagesRef = ref(storage, "images/"+file.name);
+    const uploadTask = uploadBytesResumable(imagesRef, file);
+
+    uploadTask.on('state_changed',
+    (snapshot) => {
+    },
+    (error) => {
+      // A full list of error codes is available at
+      // https://firebase.google.com/docs/storage/web/handle-errors
+      switch (error.code) {
+        case 'storage/unauthorized':
+          toast.error("User doesn't have permission to access the storage")
+        // User doesn't have permission to access the object
+          break;
+        case 'storage/canceled':
+          toast.error("User canceled the upload")
+          // User canceled the upload
+          break;
+        case 'storage/unknown':
+          toast.error("Error occured!")
+          break;
+      }
+    },
+    () => {
+      // Upload completed successfully, now we can get the download URL
+      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        toast.success("Image uploaded");
+        sendImage(downloadURL);
+      });
+    }
+);
+  }
+
+  const openFileDialog = () => {
+    inputFile.current.click();
+  };
+
+  const sendImage = async (url:string)=>{
+    try {
+      await addDoc(collection(db,"messages"), {
+      threadId:contact.threadId,
+      content: url,
+      from: user.uid,
+      to: contact.uid,
+      timeStamp: serverTimestamp(),
+      isPicture: true
+    });
+    setMessage("");
+    scroll.current?.scrollIntoView({behavior:"smooth"});
+    } catch(e) {toast.error('Cannot send image: '+e)}
+  }
+
 return (
   <div>
 <div className="flex flex-row items-center h-16 rounded-xl shadow-xl bg-white dark:bg-gray-600 w-full px-2">
-        <div>
+        <div> <input type='file' accept="image/*" id='file' ref={inputFile} onChange={uploadImage} className="hidden"/>
           <button
+            onClick={openFileDialog}
             className="flex items-center justify-center text-gray-400 hover:text-gray-600"
           >
             { <BsImage/>}

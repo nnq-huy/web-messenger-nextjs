@@ -35,6 +35,7 @@ useEffect(()=>{
       messagesList.push(message);
       })
       setMessages(messagesList);
+      setTimeout(()=>  scroll.current?.scrollIntoView({behavior:"auto"}),100)
   },
     (e)=>{
       if (e.code!='permission-denied'){toast.error('Cannot load messages: '+e.message)}},
