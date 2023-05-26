@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/app/config/firebase";
 import { Message } from "@/app/models/message";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 export const ChatWindow = () => {
   const {contact} = useCurrentContact();
@@ -45,10 +46,20 @@ useEffect(()=>{
 
   if(contact.uid!='') {return (
     <div className="flex w-full flex-col justify-between dark:bg-gradient-to-b from-gray-900 to-gray-600 p-2">
-      <div className="flex justify-start items-center w-full h-16 bg-gray-200 dark:bg-gray-700 rounded-xl shadow-lg">
-        <div className="p-2"><Avatar photoURL={contact.photoURL}/></div>
-        <p className=" text-gray-800 dark:text-gray-200">{contact.displayName}</p>
+      <div className="flex justify-between items-center w-full h-16 bg-gray-200 dark:bg-gray-700 rounded-xl shadow-lg">
+        <div className="p-2 flex items-center">
+          <Avatar photoURL={contact.photoURL}/>
+          <div>
+          <p className="font-semibold text-gray-800 dark:text-gray-200 px-2">{contact.displayName}</p>
+          <p className="text-sm text-gray-800 dark:text-gray-200 px-2">{contact.email}</p>
+
+          </div>
         </div>
+          <button className="px-2 text-xl text-gray-700 dark:text-gray-200">
+            {<BsThreeDotsVertical/>}
+          </button>
+        </div>
+
         <div className="flex flex-col p-4 overflow-auto">
           <ul>
             {messages.map((message)=>(

@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export type Contact = {
     uid: string;
     displayName: string;
@@ -5,6 +7,6 @@ export type Contact = {
     photoURL?: string;
     unread?:boolean;
     lastMessage?:string;
-    lastMessageDate?:string;
+    lastMessageDate?:Timestamp;
     threadId?:string;
 };

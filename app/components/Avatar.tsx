@@ -11,7 +11,7 @@ export const Avatar:React.FC<AvatarProps> = ({photoURL})=>{
                 height="64"
                 width="64"
                 className="object-cover w-12 h-12 rounded-full"
-                src={photoURL==""||!photoURL?'/images/avatar.webp':photoURL}
+                src={photoURL==""||!photoURL?'/images/avatar.jpg':photoURL}
             />
         </div>
     )

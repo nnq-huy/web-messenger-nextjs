@@ -129,7 +129,7 @@ const Header = ({ children }: { children: React.ReactNode }) => {
                                     height="48"
                                     width="48"
                                     className="rounded-full md:inline-block"
-                                    src={user.photoURL??'/images/avatar.webp'}
+                                    src={user.photoURL??'/images/avatar.jpg'}
                                 />
                             </>
                         )}

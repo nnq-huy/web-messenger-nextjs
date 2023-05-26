@@ -2,7 +2,7 @@
 import { db, storage } from "@/app/config/firebase";
 import { useAuth } from "@/app/context/AuthContext";
 import useCurrentContact from "@/app/hooks/useCurrentContact";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable, uploadBytes } from "firebase/storage";
 import { useRef, useState } from "react";
 import { BsEmojiSmile, BsImage, BsSend } from "react-icons/bs";
@@ -46,6 +46,11 @@ export const ChatInput : React.FC<ChatInputProps> = ({scroll})=>{
         timeStamp: serverTimestamp(),
         isPicture: false
       });
+       await setDoc(doc(db, "users/"+contact.uid+"/contacts/"+user.uid),{
+          lastMessage:message,
+          lastMessageDate:serverTimestamp(),
+       },{merge:true})
+
       setMessage("");
       scroll.current?.scrollIntoView({behavior:"smooth"});
       } catch(e) {toast.error('Cannot send message: '+e)}
@@ -103,6 +108,10 @@ export const ChatInput : React.FC<ChatInputProps> = ({scroll})=>{
       timeStamp: serverTimestamp(),
       isPicture: true
     });
+    await setDoc(doc(db, "users/"+contact.uid+"/contacts/"+user.uid),{
+      lastMessage:"sent a photo",
+      lastMessageDate:serverTimestamp(),
+   },{merge:true})
     setMessage("");
     scroll.current?.scrollIntoView({behavior:"smooth"});
     } catch(e) {toast.error('Cannot send image: '+e)}
@@ -111,7 +120,7 @@ export const ChatInput : React.FC<ChatInputProps> = ({scroll})=>{
 return (
   <div>
 <div className="flex flex-row items-center h-16 rounded-xl shadow-xl bg-white dark:bg-gray-600 w-full px-2">
-        <div> <input type="file" accept="image/*" id='file' ref={inputFile} onChange={uploadImage} className="hidden"/>
+        <div> <input title="file select" type="file" accept="image/*" id='file' ref={inputFile} onChange={uploadImage} className="hidden"/>
           <button
             onClick={openFileDialog}
             className="flex items-center justify-center text-gray-400 hover:text-gray-600"
