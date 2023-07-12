@@ -54,60 +54,60 @@ const SignUpPage = () => {
 	return (
 		<div className="bg-gray-100 dark:bg-slate-700 w-full min-h-screen py-1">
 
-		<div className="sign-up-form container shadow-lg mx-auto w-fit p-2 mt-12 bg-gray-200 dark:bg-gray-900 rounded-xl">
-		<h2 className="px-12 mt-8 text-center text-2xl font-semibold text-indigo-800 dark:text-gray-100">Sign Up</h2>			<FormProvider {...methods}>
-				<form
-					action=""
-					className="w-80 mx-auto pb-12 px-4"
-					onSubmit={handleSubmit(onSubmit)}
-				>
-					<FormInput
-						label="Name"
-						name="userName"
-						type="userName"
-						formOptions={signupSchema.fields.userName}
-						errors={errors.userName}
-					/>
-					<FormInput
-						label="Email"
-						name="email"
-						type="email"
-						formOptions={signupSchema.fields.email}
-						errors={errors.email}
-					/>
-					<FormInput
-						label="Password"
-						name="password"
-						type="password"
-						formOptions={signupSchema.fields.password}
-						errors={errors.password}
-					/>
-					<FormInput
-						label="Confirm Password"
-						name="confirm_password"
-						type="password"
-						formOptions={signupSchema.fields.confirm_password}
-						errors={errors.confirm_password}
-					/>
-					<SubmitButton label="sign up" />
-					<div className="mt-2 relative flex justify-center text-sm">
-					<span className="text-center px-2 text-gray-500 dark:text-gray-100">
-                			Already have an account? <Link className="text-sky-500" href={LOGIN}>Log in </Link>or continue with
-              			</span>
-            		</div>
-					<div className="mt-6 flex gap-2 justify-center">
-            			<AuthSocialButton
-              				icon={BsGithub}
-              				onClick={() => {}}
-            			/>
-            			<AuthSocialButton
-              				icon={BsGoogle}
-              				onClick={() => googleSignUp()}
-            			/>
-          			</div>
-				</form>
-			</FormProvider>
-		</div>
+			<div className="sign-up-form container shadow-lg mx-auto w-fit p-2 mt-12 bg-gray-200 dark:bg-gray-900 rounded-xl">
+				<h2 className="px-12 mt-8 text-center text-2xl font-semibold text-indigo-800 dark:text-gray-100">Sign Up</h2>			<FormProvider {...methods}>
+					<form
+						action=""
+						className="w-80 mx-auto pb-12 px-4"
+						onSubmit={handleSubmit(onSubmit)}
+					>
+						<FormInput
+							label="Name"
+							name="userName"
+							type="userName"
+							formOptions={signupSchema.fields.userName}
+							errors={errors.userName}
+						/>
+						<FormInput
+							label="Email"
+							name="email"
+							type="email"
+							formOptions={signupSchema.fields.email}
+							errors={errors.email}
+						/>
+						<FormInput
+							label="Password"
+							name="password"
+							type="password"
+							formOptions={signupSchema.fields.password}
+							errors={errors.password}
+						/>
+						<FormInput
+							label="Confirm Password"
+							name="confirm_password"
+							type="password"
+							formOptions={signupSchema.fields.confirm_password}
+							errors={errors.confirm_password}
+						/>
+						<SubmitButton label="sign up" />
+						<div className="mt-2 relative flex justify-center text-sm">
+							<span className="text-center px-2 text-gray-500 dark:text-gray-100">
+								Already have an account? <Link className="text-sky-500" href={LOGIN}>Log in </Link>or continue with
+							</span>
+						</div>
+						<div className="mt-6 flex gap-2 justify-center">
+							<AuthSocialButton
+								icon={BsGithub}
+								onClick={() => { }}
+							/>
+							<AuthSocialButton
+								icon={BsGoogle}
+								onClick={() => googleSignUp()}
+							/>
+						</div>
+					</form>
+				</FormProvider>
+			</div>
 		</div>
 	);
 };
