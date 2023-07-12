@@ -51,7 +51,7 @@ const AddContactPage =  () => {
         const toastId = toast.loading("Adding contact...");
         
 		try {
-             setDoc(doc(db,newContactPath),result);
+             setDoc(doc(db,newContactPath),result,{merge:true});
             toast.success("Successfully added contact", { id: toastId });
 		} catch (error: any) {
 			toast.error(error.message, { id: toastId });
@@ -59,7 +59,7 @@ const AddContactPage =  () => {
     }
 
     if (user) {return (
-        <div className="bg-gray-100 dark:bg-slate-700 min-h-screen py-1">  
+        <div className="bg-gray-100 dark:bg-slate-700 min-h-screen py-1">
             <FormProvider {...methods}>
                 <form
 		            action=""

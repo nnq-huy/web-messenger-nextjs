@@ -1,5 +1,4 @@
 'use client'
-import { Timestamp } from 'firebase/firestore';
 import { Message } from '../../models/message';
 import Image from 'next/image';
 import getTimeSinceMessageReceived from '@/app/utils/actions/getTimeSinceMessageReceived';

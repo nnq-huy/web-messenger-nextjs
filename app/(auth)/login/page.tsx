@@ -9,10 +9,11 @@ import { useAuth } from "../../context/AuthContext";
 import { loginSchema } from "../../validations/login.validation";
 import { toast } from "react-hot-toast";
 import AuthSocialButton from "@/app/components/form-components/AuthSocialButton";
-import { BsGithub, BsGoogle  } from 'react-icons/bs';
+import { BsGithub, BsGoogle } from 'react-icons/bs';
 import createUserDocument from "@/app/utils/actions/createUserDocument";
-import { HOME, SIGN_UP} from "@/app/utils/constant/routes.constant";
+import { HOME, SIGN_UP } from "@/app/utils/constant/routes.constant";
 import Link from "next/link";
+import TestLoginButton from "@/app/components/form-components/TestLoginButton";
 
 
 const LoginPage = () => {
@@ -52,51 +53,62 @@ const LoginPage = () => {
 		}
 
 	}
+	const testAccountLogin = async () => {
+		const toastId = toast.loading("Logging in...");
+		try {
+			await logIn('test@mail.test', 'aA123456');
+			toast.success("Successfully logged in!", { id: toastId });
+			router.push(HOME);
+		} catch (error: any) {
+			toast.error(error.message, { id: toastId });
+		}
+	}
 
 	return (
-		<div className="bg-gray-100 dark:bg-slate-700 w-full min-h-screen py-1">	
+		<div className="bg-gray-100 dark:bg-slate-700 w-full min-h-screen py-1">
 			<div className="sign-in-form w-fit p-2 mx-auto mt-12 shadow-lg bg-gray-200 dark:bg-gray-900 rounded-xl">
-			<h2 className="py-3 px-12 mt-8 text-center text-2xl font-semibold text-indigo-800 dark:text-gray-100">Log In</h2>
-			<FormProvider {...methods}>
-				<form
-					action=""
-					className="w-80 mx-auto pb-12 px-4"
-					onSubmit={handleSubmit(onSubmit)}
-				>
-					<FormInput
-						label="Email"
-						name="email"
-						type="email"
-						formOptions={loginSchema.fields.email}
-						errors={errors.email}
-					/>
-					<FormInput
-						label="Password"
-						name="password"
-						type="password"
-						formOptions={loginSchema.fields.password}
-						errors={errors.password}
-					/>
-					<SubmitButton label="login" />
-					<div className="mt-2 relative flex justify-center text-sm">
-              			<span className="px-2 text-center text-gray-500 dark:text-gray-100">
-                			no account? <Link className="text-sky-500" href={SIGN_UP}>Sign up </Link>or continue with
-              			</span>
-            		</div>
-					<div className="mt-6 justify-center flex gap-2">
-            			<AuthSocialButton
-              				icon={BsGithub}
-              				onClick={() => {}}
-            			/>
-            			<AuthSocialButton
-              				icon={BsGoogle}
-              				onClick={() => googleLogIn()}
-            			/>
-          			</div>
-				</form>
-			</FormProvider>
-          </div>
-		  </div>
+				<h2 className="py-3 px-12 mt-8 text-center text-2xl font-semibold text-indigo-800 dark:text-gray-100">Log In</h2>
+				<FormProvider {...methods}>
+					<form
+						action=""
+						className="w-80 mx-auto pb-12 px-4"
+						onSubmit={handleSubmit(onSubmit)}
+					>
+						<FormInput
+							label="Email"
+							name="email"
+							type="email"
+							formOptions={loginSchema.fields.email}
+							errors={errors.email}
+						/>
+						<FormInput
+							label="Password"
+							name="password"
+							type="password"
+							formOptions={loginSchema.fields.password}
+							errors={errors.password}
+						/>
+						<SubmitButton label="login" />
+						<TestLoginButton label="login with test account" onClick={testAccountLogin}/>
+						<div className="mt-2 relative flex justify-center text-sm">
+							<span className="px-2 text-center text-gray-500 dark:text-gray-100">
+								no account? <Link className="text-sky-500" href={SIGN_UP}>Sign up </Link>or continue with
+							</span>
+						</div>
+						<div className="mt-6 justify-center flex gap-2">
+							<AuthSocialButton
+								icon={BsGithub}
+								onClick={() => { }}
+							/>
+							<AuthSocialButton
+								icon={BsGoogle}
+								onClick={() => googleLogIn()}
+							/>
+						</div>
+					</form>
+				</FormProvider>
+			</div>
+		</div>
 	);
 };
 

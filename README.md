@@ -7,7 +7,7 @@ Main features:
 
 - User can login/signup using an email or a Google account.
 - search and add contact using email address
-- real time messaing without additional middleware.
+- real time messaging without additional middleware.
 - light/dark mode
 - responsive design
 
@@ -15,8 +15,7 @@ Main features:
 
 [https://web-messenger-nextjs.vercel.app](https://web-messenger-nextjs.vercel.app/)
 
-- create your own account or log in using test credential:
-  test@mail.test, password: aA123456
+- create your own account or log in using test credential.
 
 ## To run the project
 
